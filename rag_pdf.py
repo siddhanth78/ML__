@@ -33,7 +33,7 @@ def load_and_split_pdf(pdf_path):
         print(f"Error loading the PDF file: {e}")
         sys.exit(1)
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     splits = text_splitter.split_documents(pages)
     print(f"Created {len(splits)} splits from the PDF")
     return splits
@@ -44,10 +44,9 @@ def setup_vectorstore(splits):
     return retriever
 
 def get_prompts():
-    system_prompt = """You are an AI assistant tasked with answering questions based on the provided context. 
-    Always strive to give accurate and helpful responses. You will also be provided with conversation history for context along
-    with PDF data. Use these resources and provide the best answers possible. You need to answer questions with high accuracy and
-    not give a chance for the user to doubt your response. However the response needs to be highly accurate and helpful."""
+    system_prompt = """You are an AI assistant named DoRAG tasked with answering questions based on the provided context. 
+    Always strive to give accurate and helpful responses. You will be provided with conversation history for context along with PDF data.
+    Use these resources and provide the best responses possible."""
 
     question_prompt_template = """Conversation history:
 {history}
